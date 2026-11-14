@@ -619,7 +619,7 @@ function showUpdateAvailable(data) {
 }
 
 function showUpToDate() {
-  updateButton.disabled = false;
+  updateButton.disabled = True;
   updateButton.className = "update-button up-to-date";
   updateButton.textContent = "✓ SYSTEM UP TO DATE";
   updateButton.onclick = null;
@@ -681,14 +681,8 @@ supportForm.addEventListener("submit", async function(event) {
 
   if (document.getElementById("website").value) return;
 
-  if (
-    SUPPORT_ENDPOINT === "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE"
-  ) {
-    supportStatus.className = "support-status error";
-    supportStatus.textContent =
-      "Support system is not configured yet. Please try again later or contact us on Discord.";
-    return;
-  }
+  submitTicket.disabled = true;
+  submitTicket.textContent = "SUBMITTING TICKET...";
 
   const ticket = {
     name: document.getElementById("name").value.trim(),
@@ -697,9 +691,6 @@ supportForm.addEventListener("submit", async function(event) {
     subject: document.getElementById("subject").value.trim(),
     description: document.getElementById("description").value.trim()
   };
-
-  submitTicket.disabled = true;
-  submitTicket.textContent = "SUBMITTING TICKET...";
 
   try {
     const response = await fetch(SUPPORT_ENDPOINT, {
@@ -710,31 +701,8 @@ supportForm.addEventListener("submit", async function(event) {
       body: JSON.stringify(ticket)
     });
 
-    const result = await response.json();
+    const result = await response.json
 
-    if (!response.ok || !result.success) {
-      throw new Error("Ticket submission failed");
-    }
-
-    supportStatus.className = "support-status success";
-    supportStatus.textContent =
-      "✓ Ticket submitted successfully! Your reference is " +
-      result.reference +
-      ". Please keep this reference for future enquiries.";
-
-    supportForm.reset();
-
-  } catch (error) {
-    console.error(error);
-    supportStatus.className = "support-status error";
-    supportStatus.textContent =
-      "We couldn't submit your ticket. Please try again or contact us through Discord.";
-  } finally {
-    submitTicket.disabled = false;
-    submitTicket.textContent = "SUBMIT SUPPORT TICKET";
-  }
-});
-</script>
 
 </body>
 </html>
