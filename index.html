@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050a14">
+  <meta name="description" content="MRDJB87 system interface. Browse communities, join Discord servers and stay connected.">
   <title>MRDJB87 | System</title>
 
   <style>
@@ -27,6 +30,11 @@
       --scan-line: rgba(56, 189, 248, 0.03);
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
       background: var(--bg-dark);
@@ -41,18 +49,20 @@
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.05), transparent 60%);
+      background: radial-gradient(
+        circle at top,
+        rgba(56, 189, 248, 0.05),
+        transparent 60%
+      );
       z-index: -1;
     }
 
     header {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.92);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 20px 30px;
       border-bottom: 1px solid var(--border);
       position: sticky;
@@ -87,10 +97,15 @@
       letter-spacing: 2px;
     }
 
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
     nav a {
       color: var(--text);
       text-decoration: none;
-      margin: 0 15px;
       font-weight: 500;
       font-size: 15px;
       position: relative;
@@ -108,11 +123,13 @@
       transition: width 0.3s ease;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a:focus-visible {
       color: var(--primary);
     }
 
-    nav a:hover::after {
+    nav a:hover::after,
+    nav a:focus-visible::after {
       width: 100%;
     }
 
@@ -127,7 +144,7 @@
       padding: 60px 20px 80px;
     }
 
-    .hero .system-indicator {
+    .system-indicator {
       font-family: monospace;
       font-size: 13px;
       color: var(--success);
@@ -137,7 +154,7 @@
       gap: 8px;
     }
 
-    .hero .system-indicator::before {
+    .system-indicator::before {
       content: '';
       width: 8px;
       height: 8px;
@@ -147,8 +164,14 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--success); }
-      50% { opacity: 0.5; box-shadow: 0 0 10px var(--success); }
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 4px var(--success);
+      }
+      50% {
+        opacity: 0.5;
+        box-shadow: 0 0 10px var(--success);
+      }
     }
 
     .hero h2 {
@@ -170,7 +193,11 @@
 
     .button {
       display: inline-block;
-      background: linear-gradient(135deg, var(--primary-dim), var(--accent));
+      background: linear-gradient(
+        135deg,
+        var(--primary-dim),
+        var(--accent)
+      );
       color: white;
       padding: 14px 32px;
       border-radius: 6px;
@@ -216,6 +243,10 @@
       margin-bottom: 35px;
     }
 
+    .server-category:last-child {
+      margin-bottom: 0;
+    }
+
     .category-label {
       font-size: 14px;
       color: var(--text-dim);
@@ -227,12 +258,19 @@
 
     .server-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 280px), 1fr)
+      );
       gap: 20px;
     }
 
     .server-card-main {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(129, 140, 248, 0.05));
+      background: linear-gradient(
+        135deg,
+        rgba(56, 189, 248, 0.08),
+        rgba(129, 140, 248, 0.05)
+      );
       border: 1px solid rgba(56, 189, 248, 0.2);
       border-radius: 10px;
       padding: 25px;
@@ -240,6 +278,7 @@
       transition: all 0.3s ease;
       text-decoration: none;
       display: block;
+      color: inherit;
     }
 
     .server-card-main:hover {
@@ -252,7 +291,11 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-dim), var(--accent));
+      background: linear-gradient(
+        135deg,
+        var(--primary-dim),
+        var(--accent)
+      );
       margin: 0 auto 15px;
       display: flex;
       align-items: center;
@@ -308,12 +351,64 @@
       margin-top: 5px;
     }
 
+    a:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 4px;
+    }
+
     @media (max-width: 600px) {
-      .hero h2 { font-size: 32px; }
-      nav a { margin: 0 8px; font-size: 14px; }
-      .server-stats-row { gap: 20px; }
-      main { padding: 25px 15px; }
-      .section-container { padding: 20px; }
+      header {
+        padding: 15px 20px;
+      }
+
+      .header-inner {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 40px 10px 60px;
+      }
+
+      .hero h2 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      main {
+        padding: 25px 15px 50px;
+      }
+
+      .section-container {
+        padding: 20px;
+      }
+
+      .section-title {
+        font-size: 18px;
+      }
+
+      .server-stats-row {
+        gap: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -323,10 +418,11 @@
   <header>
     <div class="header-inner">
       <div>
-        <div class="system-tag">system online — v1.3.0</div>
+        <div class="system-tag">SYSTEM ONLINE — V1.3.0</div>
         <div class="logo">MRDJB87</div>
       </div>
-      <nav>
+
+      <nav aria-label="Main navigation">
         <a href="#home">HOME</a>
         <a href="#servers">SERVERS</a>
         <a href="#contact">CONTACT</a>
@@ -335,92 +431,155 @@
   </header>
 
   <main>
+
     <!-- HOME SECTION -->
     <section class="hero" id="home">
-      <div class="system-indicator">SYSTEM CONNECTED — READY</div>
+      <div class="system-indicator">
+        SYSTEM CONNECTED — READY
+      </div>
+
       <h2>Welcome to <span>MRDJB87</span></h2>
-      <p>System interface active. Browse communities, join servers, stay connected. All systems operational.</p>
-      <a href="https://discord.gg/89T8EZjgwD" class="button" target="_blank" rel="noopener noreferrer">
+
+      <p>
+        System interface active. Browse communities, join servers,
+        stay connected. All systems operational.
+      </p>
+
+      <a
+        href="https://discord.gg/89T8EZjgwD"
+        class="button"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         ⟡ ENTER MAIN SERVER
       </a>
     </section>
 
     <!-- SERVERS SECTION -->
-    <div class="section-container" id="servers">
+    <section class="section-container" id="servers">
       <div class="section-header">
-        <div class="section-title">⟡ SERVER DIRECTORY</div>
+        <h2 class="section-title">⟡ SERVER DIRECTORY</h2>
       </div>
 
       <!-- SERVERS I OWN -->
       <div class="server-category">
-        <div class="category-label">⚙️ SERVERS I OWN</div>
+        <h3 class="category-label">⚙️ SERVERS I OWN</h3>
+
         <div class="server-grid">
-          <a href="https://discord.gg/89T8EZjgwD" class="server-card-main" target="_blank" rel="noopener noreferrer">
-            <div class="server-icon">🎧</div>
+
+          <a
+            href="https://discord.gg/89T8EZjgwD"
+            class="server-card-main"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="server-icon" aria-hidden="true">🎧</div>
+
             <h3 class="server-name">Mr DJ Productions</h3>
+
             <p class="server-tagline">Primary Community</p>
+
             <div class="server-stats-row">
               <div class="stat-block">
                 <h4>22</h4>
                 <p>Members</p>
               </div>
+
               <div class="stat-block">
                 <h4>16</h4>
+                <p>Online</p>
               </div>
             </div>
           </a>
+
         </div>
       </div>
 
       <!-- SERVERS I WORK IN -->
       <div class="server-category">
-        <div class="category-label">🤝 SERVERS I WORK IN</div>
+        <h3 class="category-label">🤝 SERVERS I WORK IN</h3>
+
         <div class="server-grid">
-          <a href="https://discord.gg/v3awHTbyfY" class="server-card-main" target="_blank" rel="noopener noreferrer">
-            <div class="server-icon">🏛️</div>
+
+          <a
+            href="https://discord.gg/v3awHTbyfY"
+            class="server-card-main"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="server-icon" aria-hidden="true">🏛️</div>
+
             <h3 class="server-name">Choco1547YT Community</h3>
-            <p class="server-tagline">Staff & Support</p>
+
+            <p class="server-tagline">Staff &amp; Support</p>
+
             <div class="server-stats-row">
               <div class="stat-block">
                 <h4>—</h4>
-              </div>
+                <p>Members</p>
               </div>
             </div>
           </a>
 
-          <a href="https://discord.gg/QWhmq3gmM6" class="server-card-main" target="_blank" rel="noopener noreferrer">
-            <div class="server-icon">🔧</div>
-            <h3 class="server-name">The server inspectorate</h3>
+          <a
+            href="https://discord.gg/QWhmq3gmM6"
+            class="server-card-main"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="server-icon" aria-hidden="true">🔧</div>
+
+            <h3 class="server-name">The Server Inspectorate</h3>
+
             <p class="server-tagline">Staff Member</p>
+
             <div class="server-stats-row">
               <div class="stat-block">
                 <h4>—</h4>
-              </div>
+                <p>Members</p>
               </div>
             </div>
           </a>
+
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- CONTACT SECTION -->
-    <div class="section-container" id="contact">
+    <section class="section-container" id="contact">
+
       <div class="section-header">
-        <div class="section-title">⟡ CONTACT</div>
+        <h2 class="section-title">⟡ CONTACT</h2>
       </div>
+
       <div style="text-align: center; padding: 20px 0;">
-        <p style="color: var(--text-dim); margin-bottom: 25px;">Need to get in touch? Join my main Discord server for the fastest response.</p>
-        <a href="https://discord.gg/89T8EZjgwD" class="button" target="_blank" rel="noopener noreferrer">
+
+        <p style="color: var(--text-dim); margin-bottom: 25px;">
+          Need to get in touch? Join my main Discord server
+          for the fastest response.
+        </p>
+
+        <a
+          href="https://discord.gg/89T8EZjgwD"
+          class="button"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           💬 OPEN DISCORD
         </a>
+
       </div>
-    </div>
+    </section>
+
   </main>
 
   <footer>
     <p>&copy; 2026 MRDJB87 — All Rights Reserved</p>
-    <p class="system-foot">SYSTEM VERSION 1.3.0 — INTERFACE ACTIVE</p>
+    <p class="system-foot">
+      SYSTEM VERSION 1.3.0 — INTERFACE ACTIVE
+    </p>
   </footer>
 
 </body>
 </html>
+
