@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +9,6 @@
   <title>MRDJB87 | System</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
     :root {
       --bg-dark: #050a14;
       --bg-card: #0f172a;
@@ -25,15 +19,20 @@
       --text-dim: #94a3b8;
       --border: #1e3a5f;
       --success: #22c55e;
-      --error: #ef4444;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
 
     html {
+      scroll-behavior: smooth;
       scroll-padding-top: 120px;
     }
 
     body {
       min-height: 100vh;
+      margin: 0;
       background: var(--bg-dark);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
@@ -62,6 +61,11 @@
       text-decoration: none;
     }
 
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 4px;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -73,8 +77,9 @@
 
     .header-inner {
       max-width: 1100px;
+      min-height: 84px;
       margin: auto;
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -106,6 +111,7 @@
       font-size: 12px;
       font-weight: bold;
       letter-spacing: 1px;
+      transition: color .2s;
     }
 
     nav a:hover {
@@ -121,10 +127,12 @@
       font-size: 10px;
       font-weight: bold;
       letter-spacing: 1px;
+      cursor: default;
     }
 
     .update-button.up-to-date,
-    .update-button.check-error {
+    .update-button.check-error,
+    .update-button.version-ahead {
       background: #303744;
       border-color: #4b5563;
       color: #cbd5e1;
@@ -224,7 +232,7 @@
 
     .server-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+      grid-template-columns: repeat(auto-fit,minmax(min(100%,240px),1fr));
       gap: 18px;
     }
 
@@ -264,7 +272,6 @@
       letter-spacing: 1px;
     }
 
-    /* SUPPORT SECTION */
     .support-intro {
       color: var(--text-dim);
       margin-bottom: 25px;
@@ -309,7 +316,7 @@
       letter-spacing: 1px;
     }
 
-    @media(max-width:600px) {
+    @media(max-width:700px) {
       .header-inner {
         justify-content: center;
         text-align: center;
@@ -318,6 +325,7 @@
       nav {
         justify-content: center;
         width: 100%;
+        gap: 14px;
       }
 
       .hero {
@@ -334,9 +342,10 @@
     }
 
     @media(prefers-reduced-motion:reduce) {
-      *,*::before,*::after {
+      *, *::before, *::after {
         scroll-behavior: auto !important;
         animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
       }
     }
@@ -358,14 +367,14 @@
         <a href="#contact">CONTACT</a>
       </nav>
 
-      <button id="updateButton" class="update-button" type="button" disabled>
+      <button id="updateButton" class="update-button"
+              type="button" disabled aria-live="polite">
         ◉ CHECKING SYSTEM...
       </button>
     </div>
   </header>
 
   <main>
-    <!-- HOME SECTION -->
     <section class="hero" id="home">
       <div>
         <span class="system-indicator"></span>
@@ -386,12 +395,12 @@
       </a>
     </section>
 
-    <!-- SERVERS SECTION -->
     <section class="section-container" id="servers">
       <h2 class="section-heading">SERVER DIRECTORY</h2>
 
       <div class="server-category">
         <h3>SERVERS I OWN</h3>
+
         <div class="server-grid">
           <a class="server-card"
              href="https://discord.gg/89T8EZjgwD"
@@ -405,13 +414,14 @@
 
       <div class="server-category">
         <h3>SERVERS I WORK IN</h3>
+
         <div class="server-grid">
           <a class="server-card"
              href="https://discord.gg/v3awHTbyfY"
              target="_blank" rel="noopener noreferrer">
             <h4>Choco1547YT Community</h4>
             <p>Community staff and support.</p>
-            <span class="server-role">STAFF & SUPPORT</span>
+            <span class="server-role">STAFF &amp; SUPPORT</span>
           </a>
 
           <a class="server-card"
@@ -425,7 +435,6 @@
       </div>
     </section>
 
-    <!-- SUPPORT SECTION -->
     <section class="section-container" id="support">
       <h2 class="section-heading">SUPPORT CENTRE</h2>
 
@@ -453,7 +462,6 @@
       </div>
     </section>
 
-    <!-- CONTACT SECTION -->
     <section class="section-container" id="contact">
       <h2 class="section-heading">CONTACT</h2>
 
@@ -478,72 +486,138 @@
   </footer>
 
   <script>
-    /* VERSION CHECKER */
+    "use strict";
+
+    // Keep this version in sync with the header and footer.
     const CURRENT_VERSION = "1.6.0";
     const VERSION_FILE = "/version.json";
     const updateButton = document.getElementById("updateButton");
 
+    // Returns 1 if latest is newer, -1 if current is newer, 0 if equal.
     function compareVersions(current, latest) {
       const a = current.split(".").map(Number);
-      const b = latest.split(".").map(".").map(Number);
+      const b = latest.split(".").map(Number);
+
       for (let i = 0; i < Math.max(a.length, b.length); i++) {
-        const x = a[i] || 0;
-        const y = b[i] || 0;
-        if (y > x) return 1;
-        if (y < x) return -1;
+        const currentPart = a[i] ?? 0;
+        const latestPart = b[i] ?? 0;
+
+        if (latestPart > currentPart) return 1;
+        if (latestPart < currentPart) return -1;
       }
+
       return 0;
     }
 
+    function setStatus(className, message, disabled = true) {
+      updateButton.className = `update-button ${className}`;
+      updateButton.textContent = message;
+      updateButton.disabled = disabled;
+      updateButton.onclick = null;
+    }
+
     function showUpdateAvailable(data) {
-      updateButton.disabled = true;
-      updateButton.className = "update-button update-available";
-      updateButton.textContent = "⬆ UPDATE AVAILABLE";
+      setStatus(
+        "update-available",
+        `⬆ UPDATE AVAILABLE — V${data.version}`,
+        false
+      );
+
       updateButton.onclick = () => {
-        if (data.updateUrl) {
-          window.location.href = data.updateUrl;
-        } else {
+        if (!data.updateUrl) {
           window.location.reload();
+          return;
+        }
+
+        try {
+          const destination = new URL(
+            data.updateUrl,
+            window.location.origin
+          );
+
+          if (
+            destination.protocol !== "https:" &&
+            destination.protocol !== "http:"
+          ) {
+            throw new Error("Unsupported URL protocol");
+          }
+
+          window.location.assign(destination.href);
+        } catch (error) {
+          console.error("Invalid update URL:", error);
+          setStatus("check-error", "⚠ INVALID UPDATE LINK");
         }
       };
     }
 
     function showUpToDate() {
-      updateButton.disabled = true;
-      updateButton.className = "update-button up-to-date";
-      updateButton.textContent = "✓ SYSTEM UP TO DATE";
-      updateButton.onclick = null;
+      setStatus("up-to-date", "✓ SYSTEM UP TO DATE");
+    }
+
+    function showVersionAhead(version) {
+      setStatus(
+        "version-ahead",
+        `✓ RUNNING NEWER VERSION (LATEST V${version})`
+      );
     }
 
     function showCheckError() {
-      updateButton.disabled = true;
-      updateButton.className = "update-button check-error";
-      updateButton.textContent = "⚠ UPDATE CHECK UNAVAILABLE";
-      updateButton.onclick = null;
+      setStatus("check-error", "⚠ UPDATE CHECK UNAVAILABLE");
     }
 
     async function checkForUpdates() {
+      const controller = new AbortController();
+
+      const timeoutId = setTimeout(
+        () => controller.abort(),
+        10000
+      );
+
       try {
         const response = await fetch(
-          VERSION_FILE + "?t=" + Date.now(),
-          { cache: "no-store" }
+          `${VERSION_FILE}?t=${Date.now()}`,
+          {
+            cache: "no-store",
+            headers: {
+              "Accept": "application/json"
+            },
+            signal: controller.signal
+          }
         );
-        if (!response.ok) throw new Error("Version check failed");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
         const data = await response.json();
+
         if (
+          !data ||
           typeof data.version !== "string" ||
           !/^\d+(\.\d+)*$/.test(data.version)
         ) {
-          throw new Error("Invalid version");
+          throw new Error("Invalid version.json format");
         }
-        if (compareVersions(CURRENT_VERSION, data.version) > 0) {
+
+        const comparison = compareVersions(
+          CURRENT_VERSION,
+          data.version
+        );
+
+        if (comparison === 1) {
           showUpdateAvailable(data);
+        } else if (comparison === -1) {
+          showVersionAhead(data.version);
         } else {
           showUpToDate();
         }
+
       } catch (error) {
-        console.error(error);
+        console.warn("Update check failed:", error);
         showCheckError();
+
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
@@ -551,3 +625,4 @@
   </script>
 </body>
 </html>
+
