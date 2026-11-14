@@ -1,13 +1,9 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MRDJB87 | Home</title>
+  <title>MRDJB87 | System</title>
 
   <style>
     * {
@@ -17,125 +13,307 @@
       scroll-behavior: smooth;
     }
 
+    :root {
+      --bg-dark: #050a14;
+      --bg-card: #0f172a;
+      --bg-glow: #1e293b;
+      --primary: #38bdf8;
+      --primary-dim: #0ea5e9;
+      --accent: #818cf8;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --border: #1e3a5f;
+      --success: #22c55e;
+      --scan-line: rgba(56, 189, 248, 0.03);
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #0b1120;
-      color: #ffffff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
       line-height: 1.6;
+      min-height: 100vh;
+      background-image:
+        linear-gradient(transparent 50%, var(--scan-line) 50%);
+      background-size: 100% 4px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.05), transparent 60%);
+      z-index: -1;
     }
 
     header {
-      background: #111c32;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #263653;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 20px 30px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    header h1 {
-      color: #60a5fa;
-      font-size: 28px;
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .system-tag {
+      font-size: 12px;
+      color: var(--primary);
+      font-family: monospace;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.7;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary);
+      text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
       letter-spacing: 2px;
     }
 
-    nav {
-      margin-top: 12px;
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      font-size: 15px;
+      position: relative;
+      transition: color 0.25s;
     }
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 12px;
-      font-weight: bold;
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
     }
 
     nav a:hover {
-      color: #60a5fa;
+      color: var(--primary);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
     }
 
     .hero {
-      min-height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #111c32, #172d50);
+      padding: 60px 20px 80px;
+    }
+
+    .hero .system-indicator {
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--success);
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero .system-indicator::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--success); }
+      50% { opacity: 0.5; box-shadow: 0 0 10px var(--success); }
     }
 
     .hero h2 {
-      font-size: 42px;
+      font-size: 48px;
       margin-bottom: 15px;
     }
 
     .hero h2 span {
-      color: #60a5fa;
+      color: var(--primary);
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
     }
 
     .hero p {
-      max-width: 600px;
-      color: #cbd5e1;
-      font-size: 18px;
-      margin-bottom: 25px;
+      max-width: 550px;
+      margin: 0 auto 30px;
+      color: var(--text-dim);
+      font-size: 17px;
     }
 
     .button {
       display: inline-block;
-      background: #2563eb;
+      background: linear-gradient(135deg, var(--primary-dim), var(--accent));
       color: white;
-      padding: 12px 25px;
-      border-radius: 8px;
+      padding: 14px 32px;
+      border-radius: 6px;
       text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
     }
 
     .button:hover {
-      background: #1d4ed8;
       transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
     }
 
-    section {
-      padding: 70px 20px;
-      text-align: center;
-    }
-
-    section h2 {
-      color: #60a5fa;
-      font-size: 30px;
+    .section-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 35px;
       margin-bottom: 30px;
+      box-shadow: inset 0 0 40px rgba(56, 189, 248, 0.02);
     }
 
-    .server-list {
+    .section-header {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
       align-items: center;
-      max-width: 500px;
-      margin: 0 auto;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .contact p {
-      color: #cbd5e1;
-      margin-bottom: 25px;
+    .section-title {
+      font-size: 22px;
+      color: var(--primary);
+      font-weight: 600;
+      font-family: monospace;
+      letter-spacing: 1px;
+    }
+
+    .server-category {
+      margin-bottom: 35px;
+    }
+
+    .category-label {
+      font-size: 14px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      font-family: monospace;
+    }
+
+    .server-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .server-card-main {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(129, 140, 248, 0.05));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .server-card-main:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+    }
+
+    .server-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-dim), var(--accent));
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .server-name {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .server-tagline {
+      color: var(--text-dim);
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .server-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .stat-block h4 {
+      font-size: 24px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .stat-block p {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     footer {
-      background: #111c32;
       text-align: center;
-      padding: 20px;
-      color: #94a3b8;
-      border-top: 1px solid #263653;
+      padding: 30px;
+      color: var(--text-dim);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+    }
+
+    footer .system-foot {
+      color: var(--primary);
+      opacity: 0.5;
+      margin-top: 5px;
     }
 
     @media (max-width: 600px) {
-      .hero h2 {
-        font-size: 32px;
-      }
-
-      nav a {
-        margin: 0 8px;
-      }
+      .hero h2 { font-size: 32px; }
+      nav a { margin: 0 8px; font-size: 14px; }
+      .server-stats-row { gap: 20px; }
+      main { padding: 25px 15px; }
+      .section-container { padding: 20px; }
     }
   </style>
 </head>
@@ -143,79 +321,115 @@
 <body>
 
   <header>
-    <h1>MRDJB87</h1>
-
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#servers">Servers</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="header-inner">
+      <div>
+        <div class="system-tag">system online — v1.3.0</div>
+        <div class="logo">MRDJB87</div>
+      </div>
+      <nav>
+        <a href="#home">HOME</a>
+        <a href="#servers">SERVERS</a>
+        <a href="#contact">CONTACT</a>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <div class="hero" id="home">
+    <!-- HOME SECTION -->
+    <section class="hero" id="home">
+      <div class="system-indicator">SYSTEM CONNECTED — READY</div>
       <h2>Welcome to <span>MRDJB87</span></h2>
-
-      <p>
-        Welcome to my personal website!
-        Feel free to explore and join my Discord community.
-      </p>
-
-      <a
-        href="https://discord.gg/89T8EZjgwD"
-        class="button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Join My Discord
+      <p>System interface active. Browse communities, join servers, stay connected. All systems operational.</p>
+      <a href="https://discord.gg/89T8EZjgwD" class="button" target="_blank" rel="noopener noreferrer">
+        ⟡ ENTER MAIN SERVER
       </a>
+    </section>
+
+    <!-- SERVERS SECTION -->
+    <div class="section-container" id="servers">
+      <div class="section-header">
+        <div class="section-title">⟡ SERVER DIRECTORY</div>
+      </div>
+
+      <!-- SERVERS I OWN -->
+      <div class="server-category">
+        <div class="category-label">⚙️ SERVERS I OWN</div>
+        <div class="server-grid">
+          <a href="https://discord.gg/89T8EZjgwD" class="server-card-main" target="_blank" rel="noopener noreferrer">
+            <div class="server-icon">🎧</div>
+            <h3 class="server-name">Mr DJ Productions</h3>
+            <p class="server-tagline">Primary Community</p>
+            <div class="server-stats-row">
+              <div class="stat-block">
+                <h4>22</h4>
+                <p>Members</p>
+              </div>
+              <div class="stat-block">
+                <h4>16</h4>
+                <p>Online</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SERVERS I WORK IN -->
+      <div class="server-category">
+        <div class="category-label">🤝 SERVERS I WORK IN</div>
+        <div class="server-grid">
+          <a href="https://discord.gg/v3awHTbyfY" class="server-card-main" target="_blank" rel="noopener noreferrer">
+            <div class="server-icon">🏛️</div>
+            <h3 class="server-name">Choco1547YT Community</h3>
+            <p class="server-tagline">Staff & Support</p>
+            <div class="server-stats-row">
+              <div class="stat-block">
+                <h4>—</h4>
+                <p>Members</p>
+              </div>
+              <div class="stat-block">
+                <h4>—</h4>
+                <p>Online</p>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://discord.gg/QWhmq3gmM6" class="server-card-main" target="_blank" rel="noopener noreferrer">
+            <div class="server-icon">🔧</div>
+            <h3 class="server-name">The server inspectorate</h3>
+            <p class="server-tagline">Staff Member</p>
+            <div class="server-stats-row">
+              <div class="stat-block">
+                <h4>—</h4>
+                <p>Members</p>
+              </div>
+              <div class="stat-block">
+                <h4>—</h4>
+                <p>Online</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <section id="servers">
-      <h2>Servers I Work In</h2>
-      <div class="server-list">
-        <a
-          href="https://discord.gg/v3awHTbyfY"
-          class="button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Server 1
-        </a>
-        <a
-          href="https://discord.gg/QWhmq3gmM6"
-          class="button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Server 2
+    <!-- CONTACT SECTION -->
+    <div class="section-container" id="contact">
+      <div class="section-header">
+        <div class="section-title">⟡ CONTACT</div>
+      </div>
+      <div style="text-align: center; padding: 20px 0;">
+        <p style="color: var(--text-dim); margin-bottom: 25px;">Need to get in touch? Join my main Discord server for the fastest response.</p>
+        <a href="https://discord.gg/89T8EZjgwD" class="button" target="_blank" rel="noopener noreferrer">
+          💬 OPEN DISCORD
         </a>
       </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <h2>Contact Me</h2>
-
-      <p>
-        Want to get in touch or join the community?
-        Click the button below!
-      </p>
-
-      <a
-        href="https://discord.gg/89T8EZjgwD"
-        class="button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        My Discord Server
-      </a>
-    </section>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; 2026 MRDJB87. All rights reserved.</p>
+    <p>&copy; 2026 MRDJB87 — All Rights Reserved</p>
+    <p class="system-foot">SYSTEM VERSION 1.3.0 — INTERFACE ACTIVE</p>
   </footer>
 
 </body>
 </html>
-
