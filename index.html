@@ -1,456 +1,323 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050a14">
-<meta name="description" content="MRDJB87 system interface and Discord communities.">
-
-<title>MRDJB87 | System</title>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-}
-
-:root {
-  --bg-dark: #050a14;
-  --bg-card: #0f172a;
-  --primary: #38bdf8;
-  --primary-dim: #0ea5e9;
-  --accent: #818cf8;
-  --text: #e2e8f0;
-  --text-dim: #94a3b8;
-  --border: #1e3a5f;
-  --success: #22c55e;
-}
-
-html {
-  scroll-padding-top: 110px;
-}
-
-body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: var(--bg-dark);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-  background-image: linear-gradient(
-    transparent 50%,
-    rgba(56,189,248,0.03) 50%
-  );
-  background-size: 100% 4px;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at top,
-    rgba(56,189,248,0.05),
-    transparent 60%
-  );
-  z-index: -1;
-}
-
-/* HEADER */
-
-header {
-  background: rgba(15,23,42,0.92);
-  backdrop-filter: blur(10px);
-  padding: 20px 30px;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.system-tag {
-  font-size: 12px;
-  color: var(--primary);
-  font-family: monospace;
-  letter-spacing: 3px;
-  opacity: 0.7;
-}
-
-.logo {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--primary);
-  text-shadow: 0 0 15px rgba(56,189,248,0.4);
-  letter-spacing: 2px;
-}
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 15px;
-  transition: color 0.25s;
-}
-
-nav a:hover {
-  color: var(--primary);
-}
-
-/* UPDATE BUTTON */
-
-.update-button {
-  background: #64748b;
-  color: white;
-  border: 1px solid #475569;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-family: monospace;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: default;
-  transition: all 0.3s ease;
-}
-
-.update-button.up-to-date {
-  background: #475569;
-  border-color: #64748b;
-  color: #cbd5e1;
-}
-
-.update-button.update-available {
-  background: #16a34a;
-  border-color: #22c55e;
-  color: white;
-  cursor: pointer;
-  animation: updatePulse 2s infinite;
-}
-
-.update-button.update-available:hover {
-  background: #15803d;
-  transform: translateY(-2px);
-}
-
-.update-button.check-error {
-  background: #475569;
-  color: #cbd5e1;
-}
-
-@keyframes updatePulse {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(34,197,94,0.2);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(34,197,94,0.6);
-  }
-}
-
-/* MAIN */
-
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 40px 20px 80px;
-}
-
-/* HERO */
-
-.hero {
-  text-align: center;
-  padding: 60px 20px 80px;
-}
-
-.system-indicator {
-  font-family: monospace;
-  font-size: 13px;
-  color: var(--success);
-  margin-bottom: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.system-indicator::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--success);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,100% {
-    opacity: 1;
-    box-shadow: 0 0 4px var(--success);
-  }
-  50% {
-    opacity: 0.5;
-    box-shadow: 0 0 10px var(--success);
-  }
-}
-
-.hero h2 {
-  font-size: 48px;
-  margin-bottom: 15px;
-}
-
-.hero h2 span {
-  color: var(--primary);
-  text-shadow: 0 0 20px rgba(56,189,248,0.35);
-}
-
-.hero p {
-  max-width: 550px;
-  margin: 0 auto 30px;
-  color: var(--text-dim);
-  font-size: 17px;
-}
-
-.button {
-  display: inline-block;
-  background: linear-gradient(
-    135deg,
-    var(--primary-dim),
-    var(--accent)
-  );
-  color: white;
-  padding: 14px 32px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(56,189,248,0.3);
-  box-shadow: 0 0 12px rgba(56,189,248,0.15);
-}
-
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(56,189,248,0.35);
-}
-
-/* SECTIONS */
-
-.section-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 35px;
-  margin-bottom: 30px;
-  box-shadow: inset 0 0 40px rgba(56,189,248,0.02);
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border);
-}
-
-.section-title {
-  font-size: 22px;
-  color: var(--primary);
-  font-family: monospace;
-  letter-spacing: 1px;
-}
-
-.server-category {
-  margin-bottom: 35px;
-}
-
-.server-category:last-child {
-  margin-bottom: 0;
-}
-
-.category-label {
-  font-size: 14px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 18px;
-  font-family: monospace;
-}
-
-.server-grid {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(100%,280px),1fr)
-  );
-  gap: 20px;
-}
-
-/* SERVER CARDS */
-
-.server-card-main {
-  background: linear-gradient(
-    135deg,
-    rgba(56,189,248,0.08),
-    rgba(129,140,248,0.05)
-  );
-  border: 1px solid rgba(56,189,248,0.2);
-  border-radius: 10px;
-  padding: 25px;
-  text-align: center;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: block;
-  color: inherit;
-}
-
-.server-card-main:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary);
-  box-shadow: 0 8px 25px rgba(56,189,248,0.15);
-}
-
-.server-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    var(--primary-dim),
-    var(--accent)
-  );
-  margin: 0 auto 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  box-shadow: 0 0 20px rgba(56,189,248,0.25);
-}
-
-.server-name {
-  font-size: 18px;
-  color: var(--primary);
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-.server-tagline {
-  color: var(--text-dim);
-  font-size: 12px;
-  margin-bottom: 15px;
-}
-
-.server-stats-row {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-}
-
-.stat-block h4 {
-  font-size: 24px;
-  color: white;
-  font-weight: 700;
-}
-
-.stat-block p {
-  font-size: 11px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* FOOTER */
-
-footer {
-  text-align: center;
-  padding: 30px;
-  color: var(--text-dim);
-  font-size: 13px;
-  border-top: 1px solid var(--border);
-  font-family: monospace;
-}
-
-footer .system-foot {
-  color: var(--primary);
-  opacity: 0.5;
-  margin-top: 5px;
-}
-
-/* MOBILE */
-
-@media(max-width:600px) {
-  header {
-    padding: 15px 20px;
-  }
-
-  .header-inner {
-    justify-content: center;
-    text-align: center;
-  }
-
-  nav {
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .update-button {
-    width: 100%;
-  }
-
-  .hero {
-    padding: 40px 10px 60px;
-  }
-
-  .hero h2 {
-    font-size: 32px;
-  }
-
-  .hero p {
-    font-size: 15px;
-  }
-
-  main {
-    padding: 25px 15px 50px;
-  }
-
-  .section-container {
-    padding: 20px;
-  }
-
-  .section-title {
-    font-size: 18px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050a14">
+  <meta name="description" content="MRDJB87 system interface and Discord communities.">
+  <title>MRDJB87 | System</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg-dark: #050a14;
+      --bg-card: #0f172a;
+      --primary: #38bdf8;
+      --primary-dim: #0ea5e9;
+      --accent: #818cf8;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --border: #1e3a5f;
+      --success: #22c55e;
+    }
+
+    html {
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 50% 0%, #0c3150 0%, transparent 45%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(56, 189, 248, 0.015) 3px
+        );
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 10, 20, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .system-tag {
+      color: var(--primary);
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 3px;
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .update-button {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #172033;
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: default;
+    }
+
+    .update-button.up-to-date,
+    .update-button.check-error {
+      background: #303744;
+      border-color: #4b5563;
+      color: #cbd5e1;
+    }
+
+    .update-button.update-available {
+      background: #14532d;
+      border-color: var(--success);
+      color: #bbf7d0;
+      cursor: pointer;
+      animation: updatePulse 1.5s infinite;
+    }
+
+    @keyframes updatePulse {
+      50% {
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+      }
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 0 24px;
+    }
+
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+
+    .system-indicator {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      margin-right: 8px;
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    .hero h1 {
+      margin: 20px 0;
+      font-size: clamp(36px, 7vw, 64px);
+      font-weight: 900;
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: var(--text-dim);
+    }
+
+    .main-button {
+      display: inline-block;
+      padding: 13px 25px;
+      border-radius: 5px;
+      background: var(--primary-dim);
+      color: #00111d;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .main-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .section-container {
+      padding: 55px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+      color: var(--primary);
+      font-size: 22px;
+      letter-spacing: 2px;
+    }
+
+    .server-category {
+      margin-bottom: 35px;
+    }
+
+    .server-category h3 {
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .server-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .server-card {
+      padding: 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .server-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .server-card h4 {
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 17px;
+    }
+
+    .server-card p {
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .server-role {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .contact-content {
+      color: var(--text-dim);
+    }
+
+    .contact-content p {
+      margin-bottom: 22px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 30px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .hero {
+        padding: 70px 0 55px;
+      }
+
+      .section-container {
+        padding: 40px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <div class="header-inner">
-
     <div>
       <div class="system-tag">SYSTEM ONLINE — V1.5.0</div>
       <div class="logo">MRDJB87</div>
@@ -462,354 +329,215 @@ footer .system-foot {
       <a href="#contact">CONTACT</a>
     </nav>
 
-    <button
-      id="updateButton"
-      class="update-button"
-      type="button"
-      disabled
-    >
+    <button id="updateButton" class="update-button" type="button" disabled>
       ◉ CHECKING SYSTEM...
     </button>
-
   </div>
 </header>
 
 <main>
 
-  <!-- HOME -->
-
   <section class="hero" id="home">
-
-    <div class="system-indicator">
-      SYSTEM CONNECTED — READY
+    <div>
+      <span class="system-indicator"></span>
+      SYSTEM OPERATIONAL
     </div>
 
-    <h2>Welcome to <span>MRDJB87</span></h2>
+    <h1>MRDJB87</h1>
 
     <p>
-      System interface active. Browse communities,
-      join servers, stay connected. All systems operational.
+      Welcome to my official system interface.
+      Explore the Discord communities I own and work with.
     </p>
 
     <a
+      class="main-button"
       href="https://discord.gg/89T8EZjgwD"
-      class="button"
       target="_blank"
       rel="noopener noreferrer"
     >
-      ⟡ ENTER MAIN SERVER
+      JOIN MY DISCORD
     </a>
-
   </section>
-
-  <!-- SERVERS -->
 
   <section class="section-container" id="servers">
-
-    <div class="section-header">
-      <h2 class="section-title">⟡ SERVER DIRECTORY</h2>
-    </div>
+    <h2 class="section-heading">SERVER DIRECTORY</h2>
 
     <div class="server-category">
-
-      <h3 class="category-label">⚙️ SERVERS I OWN</h3>
+      <h3>SERVERS I OWN</h3>
 
       <div class="server-grid">
-
         <a
+          class="server-card"
           href="https://discord.gg/89T8EZjgwD"
-          class="server-card-main"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="server-icon" aria-hidden="true">🎧</div>
-          <h3 class="server-name">Mr DJ Productions</h3>
-          <p class="server-tagline">Primary Community</p>
-
-          <div class="server-stats-row">
-            <div class="stat-block">
-              <h4>22</h4>
-              <p>Members</p>
-            </div>
-            <div class="stat-block">
-              <h4>16</h4>
-              <p>Online</p>
-            </div>
-          </div>
+          <h4>Mr DJ Productions</h4>
+          <p>My official Discord community.</p>
+          <span class="server-role">OWNER</span>
         </a>
-
       </div>
     </div>
 
     <div class="server-category">
-
-      <h3 class="category-label">🤝 SERVERS I WORK IN</h3>
+      <h3>SERVERS I WORK IN</h3>
 
       <div class="server-grid">
-
         <a
+          class="server-card"
           href="https://discord.gg/v3awHTbyfY"
-          class="server-card-main"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="server-icon" aria-hidden="true">🏛️</div>
-          <h3 class="server-name">Choco1547YT Community</h3>
-          <p class="server-tagline">Staff &amp; Support</p>
-
-          <div class="server-stats-row">
-            <div class="stat-block">
-              <h4>—</h4>
-              <p>Members</p>
-            </div>
-          </div>
+          <h4>Choco1547YT Community</h4>
+          <p>Community staff and support.</p>
+          <span class="server-role">STAFF & SUPPORT</span>
         </a>
 
         <a
+          class="server-card"
           href="https://discord.gg/QWhmq3gmM6"
-          class="server-card-main"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="server-icon" aria-hidden="true">🔧</div>
-          <h3 class="server-name">The Server Inspectorate</h3>
-          <p class="server-tagline">Staff Member</p>
-
-          <div class="server-stats-row">
-            <div class="stat-block">
-              <h4>—</h4>
-              <p>Members</p>
-            </div>
-          </div>
+          <h4>The Server Inspectorate</h4>
+          <p>Helping with server inspection and community operations.</p>
+          <span class="server-role">STAFF MEMBER</span>
         </a>
-
       </div>
     </div>
-
   </section>
 
-  <!-- CONTACT -->
-
   <section class="section-container" id="contact">
+    <h2 class="section-heading">CONTACT</h2>
 
-    <div class="section-header">
-      <h2 class="section-title">⟡ CONTACT</h2>
-    </div>
-
-    <div style="text-align:center;padding:20px 0;">
-
-      <p style="color:var(--text-dim);margin-bottom:25px;">
-        Need to get in touch? Join my main Discord server
-        for the fastest response.
+    <div class="contact-content">
+      <p>
+        Want to get in touch or join my community?
+        Use the Discord link below.
       </p>
 
       <a
+        class="main-button"
         href="https://discord.gg/89T8EZjgwD"
-        class="button"
         target="_blank"
         rel="noopener noreferrer"
       >
-        💬 OPEN DISCORD
+        CONTACT ME ON DISCORD
       </a>
-
     </div>
-
   </section>
 
 </main>
 
 <footer>
-  <p>&copy; 2026 MRDJB87 — All Rights Reserved</p>
-  <p class="system-foot">
-    SYSTEM VERSION 1.5.0 — INTERFACE ACTIVE
-  </p>
+  © 2026 MRDJB87 — ALL RIGHTS RESERVED<br>
+  SYSTEM VERSION 1.5.0 — INTERFACE ACTIVE
 </footer>
 
 <script>
+  const CURRENT_VERSION = "1.5.0";
+  const VERSION_FILE = "/version.json";
 
-/* ===================================
-   MRDJB87 UPDATE SYSTEM
-=================================== */
+  // Keep false for the live website.
+  const TEST_UPDATE_MODE = false;
+  const TEST_VERSION = "1.6.0";
 
-// CURRENT WEBSITE VERSION
-const CURRENT_VERSION = "1.4.0";
+  const updateButton = document.getElementById("updateButton");
 
-// VERSION FILE
-const VERSION_FILE = "/version.json";
+  function compareVersions(current, latest) {
+    const currentParts = current.split(".").map(Number);
+    const latestParts = latest.split(".").map(Number);
+    const length = Math.max(currentParts.length, latestParts.length);
 
-// TEST MODE
-// Set to true to simulate an available update.
-// Set to false to use the real version.json file.
-const TEST_UPDATE_MODE = false;
+    for (let i = 0; i < length; i++) {
+      const a = currentParts[i] || 0;
+      const b = latestParts[i] || 0;
 
-// Fake update version used in test mode.
-const TEST_VERSION = "1.5.0";
-
-const updateButton =
-  document.getElementById("updateButton");
-
-
-/* VERSION COMPARISON */
-
-function compareVersions(current, latest) {
-
-  const a = current.split(".").map(Number);
-  const b = latest.split(".").map(Number);
-
-  for (
-    let i = 0;
-    i < Math.max(a.length, b.length);
-    i++
-  ) {
-
-    const first = a[i] || 0;
-    const second = b[i] || 0;
-
-    if (second > first) return 1;
-    if (second < first) return -1;
-
-  }
-
-  return 0;
-}
-
-
-/* DISPLAY UPDATE AVAILABLE */
-
-function showUpdateAvailable(data) {
-
-  updateButton.disabled = false;
-
-  updateButton.className =
-    "update-button update-available";
-
-  updateButton.textContent =
-    "⬆ UPDATE AVAILABLE";
-
-  updateButton.onclick = function() {
-
-    if (data.updateUrl) {
-      window.location.href = data.updateUrl;
-    } else {
-      window.location.reload();
+      if (b > a) return 1;
+      if (b < a) return -1;
     }
 
-  };
+    return 0;
+  }
 
-}
+  function showUpdateAvailable(data) {
+    updateButton.disabled = false;
+    updateButton.className = "update-button update-available";
+    updateButton.textContent = "⬆ UPDATE AVAILABLE";
 
+    updateButton.onclick = () => {
+      if (data.updateUrl) {
+        window.location.href = data.updateUrl;
+      } else {
+        window.location.reload();
+      }
+    };
+  }
 
-/* DISPLAY UP TO DATE */
+  function showUpToDate() {
+    updateButton.disabled = true;
+    updateButton.className = "update-button up-to-date";
+    updateButton.textContent = "✓ SYSTEM UP TO DATE";
+    updateButton.onclick = null;
+  }
 
-function showUpToDate() {
+  function showCheckError() {
+    updateButton.disabled = true;
+    updateButton.className = "update-button check-error";
+    updateButton.textContent = "⚠ UPDATE CHECK UNAVAILABLE";
+    updateButton.onclick = null;
+  }
 
-  updateButton.disabled = true;
+  async function checkForUpdates() {
+    updateButton.disabled = true;
+    updateButton.className = "update-button";
+    updateButton.textContent = "◉ CHECKING SYSTEM...";
 
-  updateButton.className =
-    "update-button up-to-date";
+    try {
+      let data;
 
-  updateButton.textContent =
-    "✓ SYSTEM UP TO DATE";
+      if (TEST_UPDATE_MODE) {
+        data = {
+          version: TEST_VERSION,
+          updateUrl: "/"
+        };
+      } else {
+        const response = await fetch(
+          VERSION_FILE + "?t=" + Date.now(),
+          { cache: "no-store" }
+        );
 
-  updateButton.onclick = null;
+        if (!response.ok) {
+          throw new Error("Could not load version.json");
+        }
 
-}
-
-
-/* DISPLAY CHECK ERROR */
-
-function showCheckError() {
-
-  updateButton.disabled = true;
-
-  updateButton.className =
-    "update-button check-error";
-
-  updateButton.textContent =
-    "⚠ UPDATE CHECK UNAVAILABLE";
-
-  updateButton.onclick = null;
-
-}
-
-
-/* CHECK FOR UPDATES */
-
-async function checkForUpdates() {
-
-  updateButton.disabled = true;
-  updateButton.className = "update-button";
-
-  updateButton.textContent =
-    "◉ CHECKING SYSTEM...";
-
-  try {
-
-    let data;
-
-    // TEST MODE
-    if (TEST_UPDATE_MODE) {
-
-      data = {
-        version: TEST_VERSION,
-        updateUrl: "/"
-      };
-
-    } else {
-
-      // REAL VERSION CHECK
-      const response = await fetch(
-        VERSION_FILE + "?t=" + Date.now(),
-        { cache: "no-store" }
-      );
-
-      if (!response.ok) {
-        throw new Error("Version file unavailable");
+        data = await response.json();
       }
 
-      data = await response.json();
+      if (
+        typeof data.version !== "string" ||
+        !/^\d+(\.\d+)*$/.test(data.version)
+      ) {
+        throw new Error("Invalid version format");
+      }
 
+      const result = compareVersions(CURRENT_VERSION, data.version);
+
+      if (result > 0) {
+        showUpdateAvailable(data);
+      } else {
+        showUpToDate();
+      }
+
+    } catch (error) {
+      console.error("Update check failed:", error);
+      showCheckError();
     }
-
-    // VALIDATE VERSION
-    if (
-      typeof data.version !== "string" ||
-      !/^\d+(\.\d+)*$/.test(data.version)
-    ) {
-      throw new Error("Invalid version information");
-    }
-
-    // COMPARE VERSIONS
-    const result = compareVersions(
-      CURRENT_VERSION,
-      data.version
-    );
-
-    if (result < 0) {
-
-      showUpdateAvailable(data);
-
-    } else {
-
-      showUpToDate();
-
-    }
-
-  } catch (error) {
-
-    console.error("Update check failed:", error);
-
-    showCheckError();
-
   }
 
-}
-
-
-/* RUN CHECK WHEN WEBSITE LOADS */
-
-checkForUpdates();
-
+  checkForUpdates();
 </script>
 
 </body>
