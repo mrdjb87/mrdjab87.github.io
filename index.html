@@ -1,531 +1,606 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050a14">
-  <meta name="description" content="MRDJB87 system interface. Browse communities, join Discord servers and stay connected.">
-
-  <title>MRDJB87 | System</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    :root {
-      --bg-dark: #050a14;
-      --bg-card: #0f172a;
-      --primary: #38bdf8;
-      --primary-dim: #0ea5e9;
-      --accent: #818cf8;
-      --text: #e2e8f0;
-      --text-dim: #94a3b8;
-      --border: #1e3a5f;
-      --success: #22c55e;
-    }
-
-    html {
-      scroll-padding-top: 110px;
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
-      background-image:
-        linear-gradient(
-          transparent 50%,
-          rgba(56, 189, 248, 0.03) 50%
-        );
-      background-size: 100% 4px;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(
-        circle at top,
-        rgba(56, 189, 248, 0.05),
-        transparent 60%
-      );
-      z-index: -1;
-    }
-
-    /* HEADER */
-
-    header {
-      background: rgba(15, 23, 42, 0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 20px 30px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .system-tag {
-      font-size: 12px;
-      color: var(--primary);
-      font-family: monospace;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      opacity: 0.7;
-    }
-
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--primary);
-      text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-      letter-spacing: 2px;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      position: relative;
-      transition: color 0.25s;
-    }
-
-    nav a:hover {
-      color: var(--primary);
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    /* UPDATE BUTTON */
-
-    .update-button {
-      background: #64748b;
-      color: white;
-      border: 1px solid #475569;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-family: monospace;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: default;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-    }
-
-    .update-button.up-to-date {
-      background: #475569;
-      border-color: #64748b;
-      color: #cbd5e1;
-    }
-
-    .update-button.update-available {
-      background: #16a34a;
-      border-color: #22c55e;
-      color: white;
-      cursor: pointer;
-      animation: updatePulse 2s infinite;
-    }
-
-    .update-button.update-available:hover {
-      background: #15803d;
-      transform: translateY(-2px);
-    }
-
-    .update-button.check-error {
-      background: #475569;
-      color: #cbd5e1;
-    }
-
-    .update-button:focus-visible,
-    a:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 4px;
-    }
-
-    @keyframes updatePulse {
-      0%, 100% {
-        box-shadow: 0 0 5px rgba(34, 197, 94, 0.2);
-      }
-      50% {
-        box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
-      }
-    }
-
-    /* MAIN */
-
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
-
-    /* HERO */
-
-    .hero {
-      text-align: center;
-      padding: 60px 20px 80px;
-    }
-
-    .system-indicator {
-      font-family: monospace;
-      font-size: 13px;
-      color: var(--success);
-      margin-bottom: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .system-indicator::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 4px var(--success);
-      }
-
-      50% {
-        opacity: 0.5;
-        box-shadow: 0 0 10px var(--success);
-      }
-    }
-
-    .hero h2 {
-      font-size: 48px;
-      margin-bottom: 15px;
-    }
-
-    .hero h2 span {
-      color: var(--primary);
-      text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
-    }
-
-    .hero p {
-      max-width: 550px;
-      margin: 0 auto 30px;
-      color: var(--text-dim);
-      font-size: 17px;
-    }
-
-    .button {
-      display: inline-block;
-      background: linear-gradient(
-        135deg,
-        var(--primary-dim),
-        var(--accent)
-      );
-      color: white;
-      padding: 14px 32px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
-    }
-
-    /* SECTIONS */
-
-    .section-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 35px;
-      margin-bottom: 30px;
-      box-shadow: inset 0 0 40px rgba(56, 189, 248, 0.02);
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .section-title {
-      font-size: 22px;
-      color: var(--primary);
-      font-weight: 600;
-      font-family: monospace;
-      letter-spacing: 1px;
-    }
-
-    .server-category {
-      margin-bottom: 35px;
-    }
-
-    .server-category:last-child {
-      margin-bottom: 0;
-    }
-
-    .category-label {
-      font-size: 14px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 18px;
-      font-family: monospace;
-    }
-
-    .server-grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(min(100%, 280px), 1fr)
-      );
-      gap: 20px;
-    }
-
-    /* SERVER CARDS */
-
-    .server-card-main {
-      background: linear-gradient(
-        135deg,
-        rgba(56, 189, 248, 0.08),
-        rgba(129, 140, 248, 0.05)
-      );
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      border-radius: 10px;
-      padding: 25px;
-      text-align: center;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: block;
-      color: inherit;
-    }
-
-    .server-card-main:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
-    }
-
-    .server-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(
-        135deg,
-        var(--primary-dim),
-        var(--accent)
-      );
-      margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
-    }
-
-    .server-name {
-      font-size: 18px;
-      color: var(--primary);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .server-tagline {
-      color: var(--text-dim);
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
-
-    .server-stats-row {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-    }
-
-    .stat-block h4 {
-      font-size: 24px;
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .stat-block p {
-      font-size: 11px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-dim);
-      font-size: 13px;
-      border-top: 1px solid var(--border);
-      font-family: monospace;
-    }
-
-    footer .system-foot {
-      color: var(--primary);
-      opacity: 0.5;
-      margin-top: 5px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 600px) {
-      header {
-        padding: 15px 20px;
-      }
-
-      .header-inner {
-        justify-content: center;
-        text-align: center;
-      }
-
-      nav {
-        justify-content: center;
-        gap: 16px;
-      }
-
-      .update-button {
-        width: 100%;
-      }
-
-      .hero {
-        padding: 40px 10px 60px;
-      }
-
-      .hero h2 {
-        font-size: 32px;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      main {
-        padding: 25px 15px 50px;
-      }
-
-      .section-container {
-        padding: 20px;
-      }
-
-      .section-title {
-        font-size: 18px;
-      }
-
-      .server-stats-row {
-        gap: 20px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050a14">
+<meta name="description" content="MRDJB87 system interface and Discord communities.">
+
+<title>MRDJB87 | System</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-dark: #050a14;
+  --bg-card: #0f172a;
+  --primary: #38bdf8;
+  --primary-dim: #0ea5e9;
+  --accent: #818cf8;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --border: #1e3a5f;
+  --success: #22c55e;
+}
+
+html {
+  scroll-padding-top: 110px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  background-image: linear-gradient(
+    transparent 50%,
+    rgba(56,189,248,0.03) 50%
+  );
+  background-size: 100% 4px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at top,
+    rgba(56,189,248,0.05),
+    transparent 60%
+  );
+  z-index: -1;
+}
+
+/* HEADER */
+
+header {
+  background: rgba(15,23,42,0.92);
+  backdrop-filter: blur(10px);
+  padding: 20px 30px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.system-tag {
+  font-size: 12px;
+  color: var(--primary);
+  font-family: monospace;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(56,189,248,0.4);
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.25s;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+/* UPDATE BUTTON */
+
+.update-button {
+  background: #64748b;
+  color: white;
+  border: 1px solid #475569;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+.update-button.up-to-date {
+  background: #475569;
+  border-color: #64748b;
+  color: #cbd5e1;
+}
+
+.update-button.update-available {
+  background: #16a34a;
+  border-color: #22c55e;
+  color: white;
+  cursor: pointer;
+  animation: updatePulse 2s infinite;
+}
+
+.update-button.update-available:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+
+.update-button.check-error {
+  background: #475569;
+  color: #cbd5e1;
+}
+
+@keyframes updatePulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34,197,94,0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(34,197,94,0.6);
+  }
+}
+
+/* MAIN */
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px 80px;
+}
+
+/* HERO */
+
+.hero {
+  text-align: center;
+  padding: 60px 20px 80px;
+}
+
+.system-indicator {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--success);
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.system-indicator::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% {
+    opacity: 1;
+    box-shadow: 0 0 4px var(--success);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 10px var(--success);
+  }
+}
+
+.hero h2 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.hero h2 span {
+  color: var(--primary);
+  text-shadow: 0 0 20px rgba(56,189,248,0.35);
+}
+
+.hero p {
+  max-width: 550px;
+  margin: 0 auto 30px;
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.button {
+  display: inline-block;
+  background: linear-gradient(
+    135deg,
+    var(--primary-dim),
+    var(--accent)
+  );
+  color: white;
+  padding: 14px 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(56,189,248,0.3);
+  box-shadow: 0 0 12px rgba(56,189,248,0.15);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(56,189,248,0.35);
+}
+
+/* SECTIONS */
+
+.section-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 35px;
+  margin-bottom: 30px;
+  box-shadow: inset 0 0 40px rgba(56,189,248,0.02);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-size: 22px;
+  color: var(--primary);
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+.server-category {
+  margin-bottom: 35px;
+}
+
+.server-category:last-child {
+  margin-bottom: 0;
+}
+
+.category-label {
+  font-size: 14px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+  font-family: monospace;
+}
+
+.server-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%,280px),1fr)
+  );
+  gap: 20px;
+}
+
+/* SERVER CARDS */
+
+.server-card-main {
+  background: linear-gradient(
+    135deg,
+    rgba(56,189,248,0.08),
+    rgba(129,140,248,0.05)
+  );
+  border: 1px solid rgba(56,189,248,0.2);
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.server-card-main:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(56,189,248,0.15);
+}
+
+.server-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-dim),
+    var(--accent)
+  );
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 0 20px rgba(56,189,248,0.25);
+}
+
+.server-name {
+  font-size: 18px;
+  color: var(--primary);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.server-tagline {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.server-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.stat-block h4 {
+  font-size: 24px;
+  color: white;
+  font-weight: 700;
+}
+
+.stat-block p {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: var(--text-dim);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  font-family: monospace;
+}
+
+footer .system-foot {
+  color: var(--primary);
+  opacity: 0.5;
+  margin-top: 5px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+  header {
+    padding: 15px 20px;
+  }
+
+  .header-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .update-button {
+    width: 100%;
+  }
+
+  .hero {
+    padding: 40px 10px 60px;
+  }
+
+  .hero h2 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  main {
+    padding: 25px 15px 50px;
+  }
+
+  .section-container {
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
+<header>
+  <div class="header-inner">
 
-      <div>
-        <div class="system-tag">SYSTEM ONLINE — V1.4.0</div>
-        <div class="logo">MRDJB87</div>
-      </div>
-
-      <nav aria-label="Main navigation">
-        <a href="#home">HOME</a>
-        <a href="#servers">SERVERS</a>
-        <a href="#contact">CONTACT</a>
-      </nav>
-
-      <!-- UPDATE BUTTON -->
-      <button
-        id="updateButton"
-        class="update-button"
-        type="button"
-        disabled
-      >
-        ◉ CHECKING SYSTEM...
-      </button>
-
+    <div>
+      <div class="system-tag">SYSTEM ONLINE — V1.4.0</div>
+      <div class="logo">MRDJB87</div>
     </div>
-  </header>
 
-  <main>
+    <nav aria-label="Main navigation">
+      <a href="#home">HOME</a>
+      <a href="#servers">SERVERS</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
 
-    <!-- HOME SECTION -->
-    <section class="hero" id="home">
+    <button
+      id="updateButton"
+      class="update-button"
+      type="button"
+      disabled
+    >
+      ◉ CHECKING SYSTEM...
+    </button>
 
-      <div class="system-indicator">
-        SYSTEM CONNECTED — READY
+  </div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+
+  <section class="hero" id="home">
+
+    <div class="system-indicator">
+      SYSTEM CONNECTED — READY
+    </div>
+
+    <h2>Welcome to <span>MRDJB87</span></h2>
+
+    <p>
+      System interface active. Browse communities,
+      join servers, stay connected. All systems operational.
+    </p>
+
+    <a
+      href="https://discord.gg/89T8EZjgwD"
+      class="button"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      ⟡ ENTER MAIN SERVER
+    </a>
+
+  </section>
+
+  <!-- SERVERS -->
+
+  <section class="section-container" id="servers">
+
+    <div class="section-header">
+      <h2 class="section-title">⟡ SERVER DIRECTORY</h2>
+    </div>
+
+    <div class="server-category">
+
+      <h3 class="category-label">⚙️ SERVERS I OWN</h3>
+
+      <div class="server-grid">
+
+        <a
+          href="https://discord.gg/89T8EZjgwD"
+          class="server-card-main"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="server-icon" aria-hidden="true">🎧</div>
+          <h3 class="server-name">Mr DJ Productions</h3>
+          <p class="server-tagline">Primary Community</p>
+
+          <div class="server-stats-row">
+            <div class="stat-block">
+              <h4>22</h4>
+              <p>Members</p>
+            </div>
+            <div class="stat-block">
+              <h4>16</h4>
+              <p>Online</p>
+            </div>
+          </div>
+        </a>
+
       </div>
+    </div>
 
-      <h2>Welcome to <span>MRDJB87</span></h2>
+    <div class="server-category">
 
-      <p>
-        System interface active. Browse communities, join servers,
-        stay connected. All systems operational.
+      <h3 class="category-label">🤝 SERVERS I WORK IN</h3>
+
+      <div class="server-grid">
+
+        <a
+          href="https://discord.gg/v3awHTbyfY"
+          class="server-card-main"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="server-icon" aria-hidden="true">🏛️</div>
+          <h3 class="server-name">Choco1547YT Community</h3>
+          <p class="server-tagline">Staff &amp; Support</p>
+
+          <div class="server-stats-row">
+            <div class="stat-block">
+              <h4>—</h4>
+              <p>Members</p>
+            </div>
+          </div>
+        </a>
+
+        <a
+          href="https://discord.gg/QWhmq3gmM6"
+          class="server-card-main"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="server-icon" aria-hidden="true">🔧</div>
+          <h3 class="server-name">The Server Inspectorate</h3>
+          <p class="server-tagline">Staff Member</p>
+
+          <div class="server-stats-row">
+            <div class="stat-block">
+              <h4>—</h4>
+              <p>Members</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section class="section-container" id="contact">
+
+    <div class="section-header">
+      <h2 class="section-title">⟡ CONTACT</h2>
+    </div>
+
+    <div style="text-align:center;padding:20px 0;">
+
+      <p style="color:var(--text-dim);margin-bottom:25px;">
+        Need to get in touch? Join my main Discord server
+        for the fastest response.
       </p>
 
       <a
@@ -534,289 +609,208 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        ⟡ ENTER MAIN SERVER
+        💬 OPEN DISCORD
       </a>
 
-    </section>
+    </div>
 
-    <!-- SERVERS SECTION -->
-    <section class="section-container" id="servers">
+  </section>
 
-      <div class="section-header">
-        <h2 class="section-title">⟡ SERVER DIRECTORY</h2>
-      </div>
+</main>
 
-      <!-- SERVERS I OWN -->
-      <div class="server-category">
+<footer>
+  <p>&copy; 2026 MRDJB87 — All Rights Reserved</p>
+  <p class="system-foot">
+    SYSTEM VERSION 1.4.0 — INTERFACE ACTIVE
+  </p>
+</footer>
 
-        <h3 class="category-label">⚙️ SERVERS I OWN</h3>
+<script>
 
-        <div class="server-grid">
+/* ===================================
+   MRDJB87 UPDATE SYSTEM
+=================================== */
 
-          <a
-            href="https://discord.gg/89T8EZjgwD"
-            class="server-card-main"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+// CURRENT WEBSITE VERSION
+const CURRENT_VERSION = "1.4.0";
 
-            <div class="server-icon" aria-hidden="true">🎧</div>
+// VERSION FILE
+const VERSION_FILE = "/version.json";
 
-            <h3 class="server-name">Mr DJ Productions</h3>
+// TEST MODE
+// Set to true to simulate an available update.
+// Set to false to use the real version.json file.
+const TEST_UPDATE_MODE = false;
 
-            <p class="server-tagline">Primary Community</p>
+// Fake update version used in test mode.
+const TEST_VERSION = "1.5.0";
 
-            <div class="server-stats-row">
+const updateButton =
+  document.getElementById("updateButton");
 
-              <div class="stat-block">
-                <h4>22</h4>
-                <p>Members</p>
-              </div>
 
-              <div class="stat-block">
-                <h4>16</h4>
-                <p>Online</p>
-              </div>
+/* VERSION COMPARISON */
 
-            </div>
-          </a>
+function compareVersions(current, latest) {
 
-        </div>
-      </div>
+  const a = current.split(".").map(Number);
+  const b = latest.split(".").map(Number);
 
-      <!-- SERVERS I WORK IN -->
-      <div class="server-category">
+  for (
+    let i = 0;
+    i < Math.max(a.length, b.length);
+    i++
+  ) {
 
-        <h3 class="category-label">🤝 SERVERS I WORK IN</h3>
+    const first = a[i] || 0;
+    const second = b[i] || 0;
 
-        <div class="server-grid">
+    if (second > first) return 1;
+    if (second < first) return -1;
 
-          <a
-            href="https://discord.gg/v3awHTbyfY"
-            class="server-card-main"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  }
 
-            <div class="server-icon" aria-hidden="true">🏛️</div>
+  return 0;
+}
 
-            <h3 class="server-name">Choco1547YT Community</h3>
 
-            <p class="server-tagline">Staff &amp; Support</p>
+/* DISPLAY UPDATE AVAILABLE */
 
-            <div class="server-stats-row">
-              <div class="stat-block">
-                <h4>—</h4>
-                <p>Members</p>
-              </div>
-            </div>
+function showUpdateAvailable(data) {
 
-          </a>
+  updateButton.disabled = false;
 
-          <a
-            href="https://discord.gg/QWhmq3gmM6"
-            class="server-card-main"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  updateButton.className =
+    "update-button update-available";
 
-            <div class="server-icon" aria-hidden="true">🔧</div>
+  updateButton.textContent =
+    "⬆ UPDATE AVAILABLE";
 
-            <h3 class="server-name">The Server Inspectorate</h3>
+  updateButton.onclick = function() {
 
-            <p class="server-tagline">Staff Member</p>
-
-            <div class="server-stats-row">
-              <div class="stat-block">
-                <h4>—</h4>
-                <p>Members</p>
-              </div>
-            </div>
-
-          </a>
-
-        </div>
-      </div>
-
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section class="section-container" id="contact">
-
-      <div class="section-header">
-        <h2 class="section-title">⟡ CONTACT</h2>
-      </div>
-
-      <div style="text-align: center; padding: 20px 0;">
-
-        <p style="color: var(--text-dim); margin-bottom: 25px;">
-          Need to get in touch? Join my main Discord server
-          for the fastest response.
-        </p>
-
-        <a
-          href="https://discord.gg/89T8EZjgwD"
-          class="button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          💬 OPEN DISCORD
-        </a>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-
-    <p>&copy; 2026 MRDJB87 — All Rights Reserved</p>
-
-    <p class="system-foot">
-      SYSTEM VERSION 1.4.0 — INTERFACE ACTIVE
-    </p>
-
-  </footer>
-
-  <!-- UPDATE CHECKER -->
-  <script>
-
-    // CURRENT WEBSITE VERSION
-    const CURRENT_VERSION = "1.4.0";
-
-    // VERSION FILE LOCATION
-    const VERSION_FILE = "/version.json";
-
-    const updateButton =
-      document.getElementById("updateButton");
-
-    // COMPARE VERSION NUMBERS
-    function compareVersions(current, latest) {
-
-      const a = current.split(".").map(Number);
-      const b = latest.split(".").map(Number);
-
-      for (
-        let i = 0;
-        i < Math.max(a.length, b.length);
-        i++
-      ) {
-
-        const first = a[i] || 0;
-        const second = b[i] || 0;
-
-        if (second > first) return 1;
-        if (second < first) return -1;
-
-      }
-
-      return 0;
+    if (data.updateUrl) {
+      window.location.href = data.updateUrl;
+    } else {
+      window.location.reload();
     }
 
-    // CHECK FOR WEBSITE UPDATES
-    async function checkForUpdates() {
+  };
 
-      updateButton.disabled = true;
-      updateButton.className = "update-button";
-      updateButton.textContent = "◉ CHECKING SYSTEM...";
+}
 
-      try {
 
-        const response = await fetch(
-          VERSION_FILE + "?t=" + Date.now(),
-          { cache: "no-store" }
-        );
+/* DISPLAY UP TO DATE */
 
-        if (!response.ok) {
-          throw new Error("Version file unavailable");
-        }
+function showUpToDate() {
 
-        const data = await response.json();
+  updateButton.disabled = true;
 
-        if (
-          typeof data.version !== "string" ||
-          !/^\d+(\.\d+)*$/.test(data.version)
-        ) {
-          throw new Error("Invalid version information");
-        }
+  updateButton.className =
+    "update-button up-to-date";
 
-        const result = compareVersions(
-          CURRENT_VERSION,
-          data.version
-        );
+  updateButton.textContent =
+    "✓ SYSTEM UP TO DATE";
 
-        // UPDATE AVAILABLE
-        if (result < 0) {
+  updateButton.onclick = null;
 
-          updateButton.disabled = false;
+}
 
-          updateButton.className =
-            "update-button update-available";
 
-          updateButton.textContent =
-            "⬆ UPDATE AVAILABLE";
+/* DISPLAY CHECK ERROR */
 
-          updateButton.onclick = function() {
+function showCheckError() {
 
-            if (data.updateUrl) {
+  updateButton.disabled = true;
 
-              window.location.href = data.updateUrl;
+  updateButton.className =
+    "update-button check-error";
 
-            } else {
+  updateButton.textContent =
+    "⚠ UPDATE CHECK UNAVAILABLE";
 
-              window.location.reload();
+  updateButton.onclick = null;
 
-            }
+}
 
-          };
 
-        }
+/* CHECK FOR UPDATES */
 
-        // WEBSITE IS UP TO DATE
-        else {
+async function checkForUpdates() {
 
-          updateButton.disabled = true;
+  updateButton.disabled = true;
+  updateButton.className = "update-button";
 
-          updateButton.className =
-            "update-button up-to-date";
+  updateButton.textContent =
+    "◉ CHECKING SYSTEM...";
 
-          updateButton.textContent =
-            "✓ SYSTEM UP TO DATE";
+  try {
 
-          updateButton.onclick = null;
+    let data;
 
-        }
+    // TEST MODE
+    if (TEST_UPDATE_MODE) {
 
-      } catch (error) {
+      data = {
+        version: TEST_VERSION,
+        updateUrl: "/"
+      };
 
-        console.error("Update check failed:", error);
+    } else {
 
-        updateButton.disabled = true;
+      // REAL VERSION CHECK
+      const response = await fetch(
+        VERSION_FILE + "?t=" + Date.now(),
+        { cache: "no-store" }
+      );
 
-        updateButton.className =
-          "update-button check-error";
-
-        updateButton.textContent =
-          "⚠ UPDATE CHECK UNAVAILABLE";
-
-        updateButton.onclick = null;
-
+      if (!response.ok) {
+        throw new Error("Version file unavailable");
       }
+
+      data = await response.json();
 
     }
 
-    // RUN UPDATE CHECK ON PAGE LOAD
-    checkForUpdates();
+    // VALIDATE VERSION
+    if (
+      typeof data.version !== "string" ||
+      !/^\d+(\.\d+)*$/.test(data.version)
+    ) {
+      throw new Error("Invalid version information");
+    }
 
-  </script>
+    // COMPARE VERSIONS
+    const result = compareVersions(
+      CURRENT_VERSION,
+      data.version
+    );
+
+    if (result < 0) {
+
+      showUpdateAvailable(data);
+
+    } else {
+
+      showUpToDate();
+
+    }
+
+  } catch (error) {
+
+    console.error("Update check failed:", error);
+
+    showCheckError();
+
+  }
+
+}
+
+
+/* RUN CHECK WHEN WEBSITE LOADS */
+
+checkForUpdates();
+
+</script>
 
 </body>
 </html>
-
-  </footer>
-
-</body>
-</html>
-
