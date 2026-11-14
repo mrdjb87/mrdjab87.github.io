@@ -1,257 +1,189 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRDJB87 | Home</title>
 
-<title>MRDJB87 | Official Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-<meta name="description" content="Welcome to the official MRDJB87 website. Connect with me on Discord.">
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1120;
+      color: #ffffff;
+      line-height: 1.6;
+    }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-}
+    header {
+      background: #111c32;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #263653;
+    }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #0b1220;
-  color: #f1f5f9;
-  line-height: 1.7;
-}
+    header h1 {
+      color: #60a5fa;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
 
-nav {
-  background: #111c2e;
-  padding: 20px 8%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border-bottom: 1px solid #26354a;
-}
+    nav {
+      margin-top: 12px;
+    }
 
-.logo {
-  font-size: 23px;
-  font-weight: bold;
-  color: #60a5fa;
-}
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
 
-nav a {
-  color: #cbd5e1;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-}
+    nav a:hover {
+      color: #60a5fa;
+    }
 
-nav a:hover {
-  color: #60a5fa;
-}
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #111c32, #172d50);
+    }
 
-.hero {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 60px 20px;
-  background: radial-gradient(circle at top, #1e3a5f, #0b1220 70%);
-}
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
 
-.tag {
-  color: #60a5fa;
-  border: 1px solid #31577e;
-  border-radius: 30px;
-  padding: 7px 18px;
-  margin-bottom: 25px;
-  font-size: 13px;
-}
+    .hero h2 span {
+      color: #60a5fa;
+    }
 
-.hero h1 {
-  font-size: clamp(40px, 7vw, 72px);
-  margin-bottom: 15px;
-}
+    .hero p {
+      max-width: 600px;
+      color: #cbd5e1;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
 
-.hero h1 span {
-  color: #60a5fa;
-}
+    .button {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
 
-.hero p {
-  color: #aab8ca;
-  max-width: 550px;
-  margin-bottom: 30px;
-}
+    .button:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
 
-.btn {
-  display: inline-block;
-  background: #3b82f6;
-  color: white;
-  padding: 13px 25px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.2s;
-  margin: 5px;
-}
+    section {
+      padding: 70px 20px;
+      text-align: center;
+    }
 
-.btn:hover {
-  background: #2563eb;
-  transform: translateY(-3px);
-}
+    section h2 {
+      color: #60a5fa;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
 
-.btn-outline {
-  background: transparent;
-  border: 1px solid #60a5fa;
-  color: #60a5fa;
-}
+    .contact p {
+      color: #cbd5e1;
+      margin-bottom: 25px;
+    }
 
-.btn-outline:hover {
-  background: #1e3a5f;
-}
+    footer {
+      background: #111c32;
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      border-top: 1px solid #263653;
+    }
 
-section {
-  padding: 85px 8%;
-  max-width: 1100px;
-  margin: auto;
-}
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 32px;
+      }
 
-.section-title {
-  font-size: 34px;
-  margin-bottom: 12px;
-}
-
-.section-intro {
-  color: #94a3b8;
-  margin-bottom: 30px;
-}
-
-.contact-box {
-  background: #142136;
-  border: 1px solid #26354a;
-  border-radius: 14px;
-  padding: 28px;
-  text-align: center;
-}
-
-.contact-box h3 {
-  font-size: 25px;
-  margin-bottom: 12px;
-}
-
-.contact-box p {
-  color: #aab8ca;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-footer {
-  background: #111c2e;
-  border-top: 1px solid #26354a;
-  text-align: center;
-  padding: 30px 15px;
-  color: #94a3b8;
-  font-size: 13px;
-}
-
-@media(max-width: 600px) {
-  nav {
-    padding: 15px 4%;
-  }
-
-  nav a {
-    margin-left: 9px;
-    font-size: 12px;
-  }
-
-  .logo {
-    font-size: 17px;
-  }
-
-  section {
-    padding: 60px 6%;
-  }
-}
-</style>
+      nav a {
+        margin: 0 8px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<nav>
-  <div class="logo">MRDJB87.</div>
+  <header>
+    <h1>MRDJB87</h1>
 
-  <div>
-    <a href="#home">Home</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<header class="hero" id="home">
+  <main>
+    <div class="hero" id="home">
+      <h2>Welcome to <span>MRDJB87</span></h2>
 
-  <div class="tag">WELCOME TO MY WEBSITE</div>
+      <p>
+        Welcome to my personal website!
+        Feel free to explore and join my Discord community.
+      </p>
 
-  <h1>Hello, I'm <span>MRDJB87</span>.</h1>
+      <a
+        href="https://discord.gg/89T8EZjgwD"
+        class="button"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Join My Discord
+      </a>
+    </div>
 
-  <p>
-    Welcome to my official website!
-    Discover more about me and connect
-    with me through my Discord community.
-  </p>
+    <section class="contact" id="contact">
+      <h2>Contact Me</h2>
 
-  <div>
-    <a href="#contact" class="btn">Contact Me</a>
+      <p>
+        Want to get in touch or join the community?
+        Click the button below!
+      </p>
 
-    <a href="https://discord.gg/89T8EZjgwD"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="btn btn-outline">
-       Join My Discord
-    </a>
-  </div>
+      <a
+        href="https://discord.gg/89T8EZjgwD"
+        class="button"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        My Discord Server
+      </a>
+    </section>
+  </main>
 
-</header>
-
-<section id="contact">
-
-  <h2 class="section-title">Contact Me</h2>
-
-  <p class="section-intro">
-    Want to connect? Come and join my Discord community.
-  </p>
-
-  <div class="contact-box">
-
-    <h3>Let's Connect!</h3>
-
-    <p>
-      Join my Discord server to chat,
-      connect and keep up with what's happening.
-    </p>
-
-    <a href="https://discord.gg/89T8EZjgwD"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="btn">
-       Join My Discord Server
-    </a>
-
-  </div>
-
-</section>
-
-<footer>
-  <p>© 2026 MRDJB87. All rights reserved.</p>
-  <p>Powered by GitHub Pages</p>
-</footer>
+  <footer>
+    <p>&copy; 2026 MRDJB87. All rights reserved.</p>
+  </footer>
 
 </body>
 </html>
-
 
